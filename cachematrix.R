@@ -17,25 +17,25 @@
 ##
 
 makeCacheMatrix <- function(theMatrix = matrix()) {
-	theInverse <- NULL
-	get= function(){
-	    theMatrix
-	}
-	set= function(newMatrix){
-	    theInverse<<- NULL
-	    theMatrix<<- newMatrix
-	}
-	getInverse= function(...) {
-	    if(is.null(theInverse)){
-	      # print("solving matrix")
-	      theInverse <<- solve(theMatrix,...) # pass extra args
-	    # }else{
-	    #  print("using cache")
-	    }
-	  theInverse # return inverse   
-	}
-	
-	list( get=get,set=set,getInverse=getInverse)
+    theInverse <- NULL
+    get= function(){
+        theMatrix
+    }
+    set= function(newMatrix){
+        theInverse<<- NULL
+        theMatrix<<- newMatrix
+    }
+    getInverse= function(...) {
+        if(is.null(theInverse)){
+            # print("solving matrix")
+            theInverse <<- solve(theMatrix,...) # pass extra args
+            # }else{
+            #  print("using cache")
+        }
+        theInverse # return inverse   
+    }
+    
+    list( get=get,set=set,getInverse=getInverse)
 }
 
 
@@ -48,6 +48,6 @@ makeCacheMatrix <- function(theMatrix = matrix()) {
 ## pass on to solve()
 
 cacheSolve <- function(matObj, ...) {
-        ## Return a (cached?) matrix that is the inverse of 'matObj'
-	matObj$getInverse(...)
+    ## Return a (cached?) matrix that is the inverse of 'matObj'
+    matObj$getInverse(...)
 }
