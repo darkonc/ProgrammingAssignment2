@@ -7,10 +7,13 @@
 ## the cached inverse)
 ##
 ## get() simply returns the value of the cached matrix
-##
-## setInvese(aMatrix) sets a cached value for the inverse matrix
 ## 
-## getInverse returns the cached value for the inverse matrix.
+## getInverse returns the (possibly cached) value for the inverse matrix.
+## 
+## Note that I don't have a setInverse() function, since that
+## work is done with getInverse() .. and I don't have to 
+## worry about cached inverses getting set to arbitrary values
+##
 
 makeCacheMatrix <- function(theMatrix = matrix()) {
 	theInverse <- NULL
@@ -21,31 +24,29 @@ makeCacheMatrix <- function(theMatrix = matrix()) {
 	    theMatrix<<- newMatrix
 	    theInverse<<- NULL
 	}
-	getInverse= function() {
-	    theInverse
+	getInverse= function(...) {
+	    if(is.null(theInverse)){
+	      # print("solving matrix")
+	      theInverse <<- solve(theMatrix,...) # pass extra args
+	    # }else{
+	    #  print("using cache")
+	    }
+	  theInverse
 	}
-	setInverse= function(newInverse){
-	    theInverse <<- newInverse
-	}
-	list( get=get,set=set,getInverse=getInverse,setInverse=setInverse)
+	
+	list( get=get,set=set,getInverse=getInverse)
 }
 
 
 ## Cachesolve takes a cached-Matrix object (matObj)
 ## from MakeCacheMatrix and returns the inverse of the matrix
-## if the invese has already been calculated and returned, then 
-## Cachesolve returns the cached value, otherwise it calculates
-## a new inverse, caches that, and returns the (newly cached) inverse
+## 
+## Note that -- unlike the examples, I do all of the work of 
+## caching inside of matObj$getInverse(), rather than in cacheSolve
+## any extra parameters are passed to getInverse() to then
+## pass on to solve()
 
 cacheSolve <- function(matObj, ...) {
         ## Return a matrix that is the inverse of 'matObj'
-	theResult=matObj$getInverse()
-	if(is.null(theResult)){
-	    print("setting cache")
-	    theResult= solve(matObj$get(),...)
-	    matObj$setInverse(theResult)
-	}else{
-	    print("using cache")
-	}
-	    theResult
+	matObj$getInverse(...)
 }
