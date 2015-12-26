@@ -21,8 +21,8 @@ makeCacheMatrix <- function(theMatrix = matrix()) {
 	    theMatrix
 	}
 	set= function(newMatrix){
-	    theMatrix<<- newMatrix
 	    theInverse<<- NULL
+	    theMatrix<<- newMatrix
 	}
 	getInverse= function(...) {
 	    if(is.null(theInverse)){
@@ -31,7 +31,7 @@ makeCacheMatrix <- function(theMatrix = matrix()) {
 	    # }else{
 	    #  print("using cache")
 	    }
-	  theInverse
+	  theInverse # return inverse 
 	}
 	
 	list( get=get,set=set,getInverse=getInverse)
