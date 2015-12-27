@@ -16,7 +16,8 @@
 ## worry about cached inverses getting set to arbitrary values
 ##
 
-makeCacheMatrix <- function(theMatrix = matrix()) {
+makeCacheMatrix <- function(firstMatrix = matrix()) {
+    theMatrix<- firstMatrix
     theInverse <- NULL
     get= function(){
         theMatrix
