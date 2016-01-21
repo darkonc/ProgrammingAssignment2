@@ -22,33 +22,35 @@ makeCacheMatrix <- function(firstMatrix = matrix()) {
     get= function(){
         theMatrix
     }
-    set= function(newMatrix){
+    set <- function(newMatrix){
         theInverse<<- NULL
         theMatrix<<- newMatrix
     }
-    getInverse= function(...) {
-        if(is.null(theInverse)){
-            # print("solving matrix")
-            theInverse <<- solve(theMatrix,...) # pass extra args
-            # }else{
-            #  print("using cache")
-        }
+    getInverse <- function(...) {
         theInverse # return inverse   
     }
+    setInverse <- function(newInverse){
+        theInverse<<-newInverse
+    }
     
-    list( get=get,set=set,getInverse=getInverse)
+    list( get=get,set=set,getInverse=getInverse,setInverse=setInverse)
 }
 
 
 ## Cachesolve takes a cached-Matrix object (matObj)
 ## from MakeCacheMatrix and returns the inverse of the matrix
 ## 
-## Note that -- unlike the examples, I do all of the work of 
-## caching inside of matObj$getInverse(), rather than in cacheSolve
-## any extra parameters are passed to getInverse() to then
-## pass on to solve()
+## If there is already a cached inverse,
+## then return that instead of doing the work again.
 
 cacheSolve <- function(matObj, ...) {
-    ## Return a (cached?) matrix that is the inverse of 'matObj'
-    matObj$getInverse(...)
-}
+    ## get the (potentially) cached result
+      result=matObj$getInverse(...)
+      
+      if(is.null(result)){  # No cached result
+          # print("calculating inverse")
+          result=solve(matObj$get(),...)
+          matObj$setInverse(result)  # set the cache
+      }
+      result # return the result
+    }
