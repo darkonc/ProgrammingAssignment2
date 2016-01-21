@@ -4,16 +4,14 @@
 #### MakeCachematrix() takes  a matrix and returns a list of
 ## functions to work with the matrix.
 ##
-### set(aMatrix) assigns a new value to the stored matrix (and clears
+### set(newMatrix) assigns a new value to the stored matrix (and clears
 ## the cached inverse)
 ##
 ### get() simply returns the value of the cached matrix
 ## 
 ### getInverse() returns the (possibly cached) value for the inverse matrix.
 ## 
-## Note that I don't have a setInverse() function, since that
-## work is done with getInverse() .. and I don't have to 
-## worry about cached inverses getting set to arbitrary values
+##  setInverse(newInverse) blindly sets the cached inverse matrix.
 ##
 
 makeCacheMatrix <- function(firstMatrix = matrix()) {
